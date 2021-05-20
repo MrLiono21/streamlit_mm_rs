@@ -34,18 +34,18 @@ def get_data(filename):
 skills_dataset = get_data('data/mm.json')
 
 with header:
-    st.title('Content-based Recommender System For Skills Dataset')
+    st.title('Semantic Similarity Recommender System For MM Dataset')
     st.text("")
     st.text("")
     st.text("")
-    st.text('In this project I build a content-based recommender system using Employee_Designation.csv, Employee_Skills_Datset.csv, Final_Employees_Data.csv')
+    st.text('In this project I build a semantic similarity recommender system using MM Data')
 
 with dataset:
-    st.header('Amalgamation of the Employee_Designation.csv, Employee_Skills_Datset.csv, Final_Employees_Data.csv dataset')
+    st.header('MM Raw Dataset')
     st.text("")
     st.text("")
     st.text("")
-    st.text('I got this dataset from Kaggle: https://www.kaggle.com/granjithkumar/it-employees-data-for-project-allocation?select=Employee_Designation.csv')
+    st.text('I got this dataset from JSON file with MM Data')
 
     st.write(skills_dataset.head())
 
@@ -112,6 +112,10 @@ with model_training:
                     'what', 'mentoring', 'location', 'job', 'mode']
     for i in list_inputs:
         df[i] = df[i].astype(str)
+
+    # removes remove leading and trailing whitespaces in Python strings
+    for i in df['name']:
+        df['name'] = df['name'].replace([i],i.strip())
 
     # removing all rows with 'NA', except for the 'job' row
     list_inputs_NA = ['name', 'industriesMentee', 'aoiMentee', 'language', 'aoiMentor', 'industriesMentor', 
