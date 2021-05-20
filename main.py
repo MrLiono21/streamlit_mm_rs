@@ -83,10 +83,12 @@ with model_training:
     
     input_name = sel_col.text_input("Input Name from Dataset here", "kamaté")
     sel_col.subheader('Name Details')
+    
     if 'sample_df' in locals():
         skills_dataset = skills_dataset.append(sample_df)
     else:
         pass
+
     sel_col.write(skills_dataset.loc[skills_dataset['name'] == input_name])
 
 
