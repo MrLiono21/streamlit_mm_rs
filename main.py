@@ -32,6 +32,9 @@ def get_data(filename):
 
 
 skills_dataset = get_data('data/mm.json')
+df_photo = skills_dataset.copy()
+df_photo = df_photo[['name', 'imageUrl']]
+
 
 with header:
     st.title('Semantic Similarity Recommender System For MM Dataset')
@@ -77,7 +80,7 @@ with model_training:
         st.dataframe(sample_df)
 
 
-    sel_col, disp_col = st.beta_columns(2)
+    sel_col, disp_col, pic_col = st.beta_columns(3)
 
 
     
@@ -175,6 +178,8 @@ with model_training:
         recommender = recommender.loc[recommender['name'] != employee_likes]
         recommender = recommender.loc[recommender['name'].isin(df_mentor_list)]
         recommender = recommender.reset_index(drop=True)
+        recommender = pd.merge(recommender, df_photo, how='left', left_on='name', right_on='name')
+        recommender["imageUrl"].fillna("data:image/jpeg;base64,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", inplace = True)
         return recommender
 
     recommender = make_recommendations(input_name)
@@ -184,10 +189,10 @@ with model_training:
     recommender = recommender.rename(columns={input_name: "Soft Cosine Similarity"})
     disp_col.write(recommender)
 
-    disp_col.subheader('Recommendations Details')
-    for i in recommender.name:
-        disp_col.write(df.loc[df['name'] == i])
+    # disp_col.subheader('Recommendations Details')
+    # for i in recommender.name:
+    #     disp_col.write(df.loc[df['name'] == i])
 
-    
-
-
+    pic_col.subheader("Recommendations Photo")
+    for j in recommender.imageUrl:
+        pic_col.image(j, width = 35)
